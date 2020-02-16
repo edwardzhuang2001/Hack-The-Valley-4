@@ -18,6 +18,7 @@
         android:id="@+id/btnMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="clickedMenu"
         android:text="Menu" />
 </fragment>
 

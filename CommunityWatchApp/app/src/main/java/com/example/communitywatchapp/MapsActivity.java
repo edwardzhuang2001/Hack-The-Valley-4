@@ -64,30 +64,36 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+//        btnMenu = (Button) findViewById(R.id.btnMenu);
+//        btnMenu.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                openMenu();
+//            }
+//        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        btnMenu = (Button) findViewById(R.id.btnMenu);
-        btnMenu.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v){
-                openMenuActivity();
-            }
-        });
 
 
 
     }
 
-
-
-    public void openMenuActivity(){
-        Intent intent = new Intent(this, Menu.class);
-        startActivity(intent);
+    public void clickedMenu(View view){
+        if(view.getId()==R.id.btnMenu){
+            Intent intent = new Intent(this, Menu.class);
+            startActivity(intent);
+        }
     }
+
+
+//    public void openMenu(){
+//        Intent intent = new Intent(this, Menu.class);
+//    startActivity(intent);
+//}
 
 
 
