@@ -13,6 +13,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,7 +21,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -28,6 +32,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LocationManager locationManager;
     LocationListener locationListener;
+
+    private ArrayList<LatLng> externalLocations = new ArrayList<>();
 
 
     @Override
@@ -43,6 +49,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private Button btnMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +59,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
+
+
 
 
     /**
@@ -69,14 +81,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
-                // Add a marker in Sydney and move the camera
                 mMap.clear();
                 LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(userLocation));
+                LatLng latLng = new LatLng(46.7277, -79.9213);
+                externalLocations(latLng, "One");
+                latLng = new LatLng(56.7277, -79.9213);
+                externalLocations(latLng, "Two");
+                mMap.addMarker(new MarkerOptions().position(latLng).title("two").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
+
+            }
+
+            public void externalLocations(LatLng latLng, String info){
+
+
+                externalLocations.add(latLng);
+
+                for (int i = 0; i<externalLocations.size(); i++){
+                    mMap.addMarker(new MarkerOptions().position(externalLocations.get(i)).title(info).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                }
             }
 
             @Override
