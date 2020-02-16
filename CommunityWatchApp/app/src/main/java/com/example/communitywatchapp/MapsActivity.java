@@ -2,6 +2,7 @@ package com.example.communitywatchapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -31,7 +32,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+
+    private Button btnMenu;
+
 
     private GoogleMap mMap;
 
@@ -48,13 +53,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (request == 1){
             if(grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,1,10, locationListener);
+                    locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,0,0, locationListener);
                 }
             }
         }
     }
 
-    private Button btnMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +80,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-
     }
+
+
 
     public void openMenuActivity(){
         Intent intent = new Intent(this, Menu.class);
@@ -151,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 10, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 //Get user's last known location
                 Location lastLocation = locationManager.getLastKnownLocation((LocationManager.GPS_PROVIDER));
                 mMap.clear();
